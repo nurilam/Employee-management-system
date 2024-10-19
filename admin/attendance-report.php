@@ -113,13 +113,13 @@ if (isset($_POST['edit_attendance_id'])) {
 ?>
 
 <style>
-    /* #table-search-users {
+    #table-search-users {
         display: block;
         width: 100%;
         padding: 10px;
         margin-top: 20px;
         font-size: 16px;
-    } */
+    }
 
     #myForm label {
         font-weight: bold;
@@ -134,21 +134,17 @@ if (isset($_POST['edit_attendance_id'])) {
 </style>
 
 <div class="container">
-
-    <div class="head-card">
-        <h2>Attendance Clock-In/Out</h2>
-        <form id="attendanceForm" method="POST" action="attendance-report.php">
-            <!-- <label for="cardInput">Tap Your Proximity Card:</label>
+    <h2>Attendance Clock-In/Out</h2>
+    <form id="myForm" method="POST" action="attendance-report.php">
+        <!-- <label for="cardInput">Tap Your Proximity Card:</label>
         <input type="text" id="cardInput" name="card_uid" style="display:none" required>
         <button type="submit" style="display:none">Clock In/Out</button> -->
 
-            <label for="table-search-users">Tap Your Proximity Card:</label>
-            <input type="text" id="table-search-users" name="card_uid" required>
-            <button type="submit" style="display: none;">Clock In/Out</button>
+        <label for="table-search-users">Tap Your Proximity Card:</label>
+        <input type="text" id="table-search-users" name="card_uid" required>
+        <button type="submit" style="display: none;">Clock In/Out</button>
 
-        </form>
-    </div>
-
+    </form>
 
     <!-- <script>
         document.getElementById("cardInput").addEventListener("input", function() {
@@ -190,12 +186,10 @@ if (isset($_POST['edit_attendance_id'])) {
                 title: 'Success!',
                 text: 'Attendance successfully recorded!',
                 icon: 'success',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                // Submit the form if user clicks 'OK'
-                if (result.isConfirmed) {
-                    form.submit();
-                }
+                timer: 1000, // 2 seconds
+                showConfirmButton: false
+            }).then(() => {                
+                form.submit();
             });
         }
 
