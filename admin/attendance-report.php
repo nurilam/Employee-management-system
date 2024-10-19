@@ -113,13 +113,13 @@ if (isset($_POST['edit_attendance_id'])) {
 ?>
 
 <style>
-    #table-search-users {
+    /* #table-search-users {
         display: block;
         width: 100%;
         padding: 10px;
         margin-top: 20px;
         font-size: 16px;
-    }
+    } */
 
     #myForm label {
         font-weight: bold;
@@ -130,21 +130,26 @@ if (isset($_POST['edit_attendance_id'])) {
     #myForm {
         width: 300px;
         margin: 0 auto;
-    }
+    }    
+    
 </style>
 
 <div class="container">
-    <h2>Attendance Clock-In/Out</h2>
-    <form id="attendanceForm" method="POST" action="attendance-report.php">
-        <!-- <label for="cardInput">Tap Your Proximity Card:</label>
+
+    <div class="head-card">
+        <h2>Attendance Clock-In/Out</h2>
+        <form id="attendanceForm" method="POST" action="attendance-report.php">
+            <!-- <label for="cardInput">Tap Your Proximity Card:</label>
         <input type="text" id="cardInput" name="card_uid" style="display:none" required>
         <button type="submit" style="display:none">Clock In/Out</button> -->
 
-        <label for="table-search-users">Tap Your Proximity Card:</label>
-        <input type="text" id="table-search-users" name="card_uid" style="display: none;" required>
-        <button type="submit" style="display: none;">Clock In/Out</button>
+            <label for="table-search-users">Tap Your Proximity Card:</label>
+            <input type="text" id="table-search-users" name="card_uid" required>
+            <button type="submit" style="display: none;">Clock In/Out</button>
 
-    </form>
+        </form>
+    </div>
+
 
     <!-- <script>
         document.getElementById("cardInput").addEventListener("input", function() {
