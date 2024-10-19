@@ -113,23 +113,72 @@ if (isset($_POST['edit_attendance_id'])) {
 ?>
 
 <style>
-    /* Your existing CSS styles */
+    #table-search-users {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    #myForm label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    #myForm {
+        width: 300px;
+        margin: 0 auto;
+    }
 </style>
 
 <div class="container">
     <h2>Attendance Clock-In/Out</h2>
     <form id="attendanceForm" method="POST" action="attendance-report.php">
-        <label for="cardInput">Tap Your Proximity Card:</label>
-        <!-- RFID Reader will pass the UID automatically -->
+        <!-- <label for="cardInput">Tap Your Proximity Card:</label>
         <input type="text" id="cardInput" name="card_uid" style="display:none" required>
-        <button type="submit" style="display:none">Clock In/Out</button>
+        <button type="submit" style="display:none">Clock In/Out</button> -->
+
+        <label for="table-search-users">Tap Your Proximity Card:</label>
+        <input type="text" id="table-search-users" name="card_uid" style="display: none;" required>
+        <button type="submit" style="display: none;">Clock In/Out</button>
+
     </form>
 
-    <script>
-        // Listen for input from the RFID reader
+    <!-- <script>
         document.getElementById("cardInput").addEventListener("input", function() {
             this.form.submit();
         });
+    </script> -->
+
+    <script>
+        function addInputToTable() {
+            var inputField = document.getElementById('table-search-users');
+            var form = document.getElementById('myForm');
+
+            // Focus on the input field when page loads
+            inputField.focus();
+
+            inputField.addEventListener('input', function() {
+                // Submit the form if input length is 10 characters
+                if (this.value.length === 10) {
+                    form.submit();
+                }
+            });
+
+            inputField.addEventListener('paste', function(event) {
+                setTimeout(function() {
+                    if (inputField.value.length === 10) {
+                        form.submit();
+                    }
+                }, 0);
+            });
+        }
+
+        window.onload = function() {
+            addInputToTable();
+        };
     </script>
 </div>
 
