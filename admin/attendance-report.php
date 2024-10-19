@@ -130,8 +130,7 @@ if (isset($_POST['edit_attendance_id'])) {
     #myForm {
         width: 300px;
         margin: 0 auto;
-    }    
-    
+    }
 </style>
 
 <div class="container">
@@ -157,6 +156,7 @@ if (isset($_POST['edit_attendance_id'])) {
         });
     </script> -->
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function addInputToTable() {
             var inputField = document.getElementById('table-search-users');
@@ -168,16 +168,34 @@ if (isset($_POST['edit_attendance_id'])) {
             inputField.addEventListener('input', function() {
                 // Submit the form if input length is 10 characters
                 if (this.value.length === 10) {
-                    form.submit();
+                    showSuccessAlert(form);
                 }
             });
 
             inputField.addEventListener('paste', function(event) {
                 setTimeout(function() {
                     if (inputField.value.length === 10) {
-                        form.submit();
+                        showSuccessAlert(form);
                     }
                 }, 0);
+            });
+        }
+
+        function showSuccessAlert(form) {
+            // Prevent the form from actually submitting
+            event.preventDefault();
+
+            // Show SweetAlert2 success popup
+            Swal.fire({
+                title: 'Success!',
+                text: 'Attendance successfully recorded!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                // Submit the form if user clicks 'OK'
+                if (result.isConfirmed) {
+                    form.submit();
+                }
             });
         }
 
