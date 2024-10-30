@@ -113,15 +113,15 @@ if (isset($_POST['edit_attendance_id'])) {
 ?>
 
 <style>
-    #table-search-users {
+    /* #table-search-users {
         display: block;
         width: 100%;
         padding: 10px;
         margin-top: 20px;
         font-size: 16px;
-    }
+    } */
 
-    #myForm label {
+    /* #myForm label {
         font-weight: bold;
         margin-bottom: 10px;
         display: block;
@@ -130,7 +130,7 @@ if (isset($_POST['edit_attendance_id'])) {
     #myForm {
         width: 300px;
         margin: 0 auto;
-    }
+    } */
 </style>
 
 <div class="container">
