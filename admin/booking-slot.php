@@ -21,8 +21,8 @@ $countToday = 0;
 $countThisWeek = 0;
 $countUpcoming = 0;
 
-// Handle finish appointment request
-if (isset($_POST['finish_appointment'])) {
+// Check if the request is an AJAX request
+if (isset($_POST['finish_appointment_ajax'])) {
     $booking_id = $_POST['booking_id'];
 
     // Delete the booking from the database
@@ -31,18 +31,19 @@ if (isset($_POST['finish_appointment'])) {
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, "i", $booking_id);
         if (mysqli_stmt_execute($stmt)) {
-            echo "Booking deleted successfully.";
+            // Return success response
+            echo json_encode(['status' => 'success']);
         } else {
-            echo "Error deleting booking: " . mysqli_stmt_error($stmt);
+            // Return error response
+            echo json_encode(['status' => 'error', 'message' => mysqli_stmt_error($stmt)]);
         }
         mysqli_stmt_close($stmt);
     } else {
-        echo "Error in delete query: " . mysqli_error($conn);
+        echo json_encode(['status' => 'error', 'message' => mysqli_error($conn)]);
     }
-
-    header("Location: " . $_SERVER['PHP_SELF']); // Redirect to the same page
     exit;
 }
+
 
 // Handle adding a new booking
 if (isset($_POST['add_booking'])) {
@@ -84,6 +85,7 @@ if (isset($_POST['add_booking'])) {
     header("Location: booking-slot.php" . $_SERVER['PHP_SELF']); // Redirect to the same page
     exit;
 }
+
 
 // Loop through bookings to calculate counts
 while ($booking = mysqli_fetch_assoc($booking_result)) {
@@ -163,24 +165,69 @@ h2.display-4 {
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="service">Select the Service</label>
-            <select class="form-control" name="service" required style="border: 1px solid #7b1113; border-radius: 8px;">
-                <option value="" disabled selected>Select a service</option>
-                <option value="Grooming">Grooming</option>
-                <option value="Grooming">Vaccination</option>
-                <option value="Dental Scaling">Dental Scaling</option>
-                <option value="Boarding">Boarding</option>
-                <option value="Consultation">Consultation</option>
-                <option value="Surgery">Surgery</option>
-                <option value="Pemandulan">Pemandulan</option>
-                <option value="Other Services">Other Services</option>
-            </select>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="animal">Enter the Animal</label>
-            <input type="text" class="form-control" name="animal" required placeholder="Type the animal" style="border: 1px solid #7b1113; border-radius: 8px;">
-        </div>
+    <div class="form-group col-md-6">
+    <label for="service">Select the Service</label>
+    <select class="form-control" name="service" id="service" required style="border: 1px solid #7b1113; border-radius: 8px;">
+        <option value="" disabled selected>Select a service</option>
+        <option value="Grooming">Grooming</option>
+        <option value="Vaccination">Vaccination</option>
+        <option value="Dental Scaling">Dental Scaling</option>
+        <option value="Boarding">Boarding</option>
+        <option value="Consultation">Consultation</option>
+        <option value="Surgery">Surgery</option>
+        <option value="Pemandulan">Pemandulan</option>
+        <option value="Other Services">Other Services</option>
+    </select>
+</div>
+
+<div class="form-group col-md-6" id="otherServiceGroup" style="display:none;">
+    <label for="otherService">Please specify the service</label>
+    <input type="text" class="form-control" name="other_service" id="otherService" placeholder="Enter the service you need" style="border: 1px solid #7b1113; border-radius: 8px;">
+</div>
+
+<script>
+    document.getElementById('service').addEventListener('change', function() {
+        var otherServiceGroup = document.getElementById('otherServiceGroup');
+        if (this.value === 'Other Services') {
+            otherServiceGroup.style.display = 'block';
+            document.getElementById('otherService').required = true;
+        } else {
+            otherServiceGroup.style.display = 'none';
+            document.getElementById('otherService').required = false;
+        }
+    });
+</script>
+
+<div class="form-group col-md-6">
+    <label for="animal">Select the Animal</label>
+    <select class="form-control" name="animal" id="animal" required style="border: 1px solid #7b1113; border-radius: 8px;">
+        <option value="" disabled selected>Select an animal</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+        <option value="Bird">Bird</option>
+        <option value="Rabbit">Rabbit</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+<div class="form-group col-md-6" id="otherAnimalGroup" style="display:none;">
+    <label for="otherAnimal">Please specify the animal</label>
+    <input type="text" class="form-control" name="other_animal" id="otherAnimal" placeholder="Enter the animal type" style="border: 1px solid #7b1113; border-radius: 8px;">
+</div>
+
+<script>
+    document.getElementById('animal').addEventListener('change', function() {
+        var otherAnimalGroup = document.getElementById('otherAnimalGroup');
+        if (this.value === 'Other') {
+            otherAnimalGroup.style.display = 'block';
+            document.getElementById('otherAnimal').required = true;
+        } else {
+            otherAnimalGroup.style.display = 'none';
+            document.getElementById('otherAnimal').required = false;
+        }
+    });
+</script>
+
     </div>
     <div class="form-row">
     <div class="form-group col-md-6">
@@ -247,104 +294,110 @@ h2.display-4 {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                    // Reset the pointer to the beginning of the result set
-                    mysqli_data_seek($booking_result, 0);
-                    $i = 1; // Initialize the serial number
-                    while ($booking = mysqli_fetch_assoc($booking_result)) {
-                        $customer_name = htmlspecialchars($booking['first_name'] . ' ' . $booking['last_name']);
-                        $service = htmlspecialchars($booking['service']);
-                        $booking_date = htmlspecialchars($booking['date']);
-                        $booking_time = htmlspecialchars($booking['time']);
-                        $status = "Confirmed"; // Assuming all bookings are confirmed for now
-                    ?>
-                    <tr>
-                        <th><?php echo $i; ?></th>
-                        <td><?php echo $customer_name; ?></td>
-                        <td><?php echo $service; ?></td>
-                        <td><?php echo $booking_date; ?></td>
-                        <td><?php echo $booking_time; ?></td>
-                        <td><?php echo $status; ?></td>
-                        <td>
-                            <!-- Finish Appointment Button -->
-                            <button class="btn btn-success custom-button finish-button" data-id="<?php echo $booking['id']; ?>" data-toggle="modal" data-target="#confirmFinishModal">Finish Appointment</button>
-                            <!-- Cancel Appointment Button -->
-                            <button class="btn btn-danger custom-button cancel-button" data-id="<?php echo $booking['id']; ?>" data-toggle="modal" data-target="#confirmCancelModal">Cancel Appointment</button>
-                        </td>
-                    </tr>
-                    <?php 
-                        $i++; // Increment the serial number
-                    }
-                    ?>
+                <?php 
+    // Reset the pointer to the beginning of the result set
+    mysqli_data_seek($booking_result, 0);
+    $i = 1; // Initialize the serial number
+    while ($booking = mysqli_fetch_assoc($booking_result)) {
+        $customer_name = htmlspecialchars($booking['first_name'] . ' ' . $booking['last_name']);
+        $service = htmlspecialchars($booking['service']);
+        $booking_date = htmlspecialchars($booking['date']);
+        $booking_time = htmlspecialchars($booking['time']);
+        $status = htmlspecialchars($booking['status']); // Assume status is fetched from the database
+?>
+<tr>
+    <th><?php echo $i; ?></th>
+    <td><?php echo $customer_name; ?></td>
+    <td><?php echo $service; ?></td>
+    <td><?php echo $booking_date; ?></td>
+    <td><?php echo $booking_time; ?></td>
+    <td id="status-<?php echo $booking['id']; ?>">
+        <?php if ($status === 'pending') { ?>
+            <!-- Confirm and Reject buttons -->
+            <button class="btn btn-success confirm-btn" data-id="<?php echo $booking['id']; ?>">Confirm</button>
+            <button class="btn btn-danger reject-btn" data-id="<?php echo $booking['id']; ?>">Reject</button>
+        <?php } else { ?>
+            <!-- Display the confirmed or rejected status -->
+            <?php echo $status; ?>
+        <?php } ?>
+    </td>
+    <td>
+    <!-- Finish Appointment Button -->
+    <button class="btn btn-success custom-button finish-button" data-id="<?php echo $booking['id']; ?>">Finish Appointment</button>
+</td>
+</tr>
+
+
+
+<?php 
+    $i++; // Increment the serial number
+} 
+?>
                 </tbody>
             </table>
-        </div>
-    </div>
-</div>
-
-<!-- Confirm Finish Appointment Modal -->
-<div class="modal fade" id="confirmFinishModal" tabindex="-1" role="dialog" aria-labelledby="confirmFinishModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmFinishModalLabel">Confirm Finish Appointment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to finish this appointment?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form id="finishForm" method="post" class="d-inline">
-                    <input type="hidden" name="booking_id" id="finishBookingId">
-                    <button type="submit" name="finish_appointment" class="btn btn-success">Finish Appointment</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Confirm Cancel Appointment Modal -->
-<div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancel Appointment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to cancel this appointment?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form id="cancelForm" method="post" class="d-inline">
-                    <input type="hidden" name="booking_id" id="cancelBookingId">
-                    <button type="submit" name="cancel_appointment" class="btn btn-danger">Cancel Appointment</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-$(document).ready(function() {
-    // Handle finish button click
-    $('.finish-button').click(function() {
-        var bookingId = $(this).data('id');
-        $('#finishBookingId').val(bookingId); // Set booking ID in hidden input
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+    // Handle Confirm button click
+    document.querySelectorAll('.confirm-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var bookingId = this.getAttribute('data-id');
+            updateStatus(bookingId, 'Confirmed');
+        });
     });
 
-    // Handle cancel button click
-    $('.cancel-button').click(function() {
-        var bookingId = $(this).data('id');
-        $('#cancelBookingId').val(bookingId); // Set booking ID in hidden input
+    // Handle Reject button click
+    document.querySelectorAll('.reject-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var bookingId = this.getAttribute('data-id');
+            updateStatus(bookingId, 'Rejected');
+        });
     });
+
+    // Function to update the status via AJAX
+    function updateStatus(bookingId, newStatus) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'update_status.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Update the status in the table
+                document.getElementById('status-' + bookingId).innerHTML = newStatus;
+            }
+        };
+        xhr.send('id=' + bookingId + '&status=' + newStatus);
+    }
 });
+
+            </script>
+                <script>
+    // Handle Finish Appointment Button Click
+    document.querySelectorAll('.finish-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const bookingId = this.getAttribute('data-id');
+            if (confirm("Are you sure you want to finish this appointment?")) {
+                // Perform AJAX request to delete the booking
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "<?php echo $_SERVER['PHP_SELF']; ?>", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.status === 'success') {
+                            alert("Appointment finished successfully.");
+                            location.reload();  // Reload the page to update the list
+                        } else {
+                            alert("Error finishing appointment: " + response.message);
+                        }
+                    }
+                };
+                xhr.send("finish_appointment_ajax=1&booking_id=" + bookingId);
+            }
+        });
+    });
 </script>
+        </div>
+    </div>
+</div>
 
 <?php 
 require_once "include/footer.php"; // Include your footer file

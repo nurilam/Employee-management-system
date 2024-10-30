@@ -230,7 +230,7 @@ if (isset($_POST['edit_attendance_id'])) {
                 <th>Clock Out</th>
                 <th>Hours Worked</th>
                 <th>Overtime</th>
-                <th>Action</th> <!-- New column for actions -->
+                <th>Action</th> 
             </tr>
         </thead>
         <tbody>
