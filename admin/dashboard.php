@@ -67,46 +67,33 @@ require_once "include/header.php";
         <div class="col-4">
             <div class="card shadow " style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-center" style="background-color: #7b1113; color: white;"><b>Employees</b></li>
-                    <li class="list-group-item">Total Employees : <?php echo mysqli_num_rows($total_emp); ?></li>
-                    <li class="list-group-item text-center"><a href="manage-employee.php" style="color: black;"> <b>View All Employees</b></a></li>
+                    <li class="list-group-item text-center" style="background-color: #7b1113; color: white;"><b>Staff</b></li>
+                    <li class="list-group-item">Total Staff : <?php echo mysqli_num_rows($total_emp); ?></li>
+                    <li class="list-group-item text-center"><a href="manage-employee.php" style="color: black;"> <b>View All Staff</b></a></li>
                 </ul>
             </div>
         </div>
         <div class="col-4">
             <div class="card shadow " style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-center" style="background-color: #7b1113; color: white;"><b>Employees on  Leave</b> (Daywise)</li>
+                    <li class="list-group-item text-center" style="background-color: #7b1113; color: white;"><b>Staff on  Leave</b> (Daywise)</li>
                     <li class="list-group-item" style="color: black;">Today :  <?php echo $today_leave; ?>  </li>
                     <li class="list-group-item" style="color: black;">Tomarrow :  <?php echo $tomarrow_leave; ?> </li>
                 </ul>
             </div>
         </div>
     </div>
-    <!-- <div class="row mt-5">
-        <div class="col-4">       
-        </div>
-
-        <div class="col-4">
-            <div class="card shadow " style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-center">Employees on Leave (Weekwise) </li>
-                    <li class="list-group-item">This Week : </li>
-                    <li class="list-group-item">Next Week : </li>
-                </ul>
-            </div>
-        </div>
-    </div> -->
+    
     <div class="row mt-5 bg-white shadow "> 
     <div class="col-12">
-            <div class=" text-center my-3 "> <h4>Employee Leadership Board</h4> </div>
+            <div class=" text-center my-3 "> <h4>Staff Leadership Board</h4> </div>
             <table class="table  table-hover">
             <thead>
                 <tr style="background-color: #ab4e52; color: black;">
                     <th scope="col">S.No.</th>
-                    <th scope="col">Employee's Id</th>
-                    <th scope="col">Employee's Name</th>
-                    <th scope="col">Employee's Email</th>
+                    <th scope="col">Staff's Id</th>
+                    <th scope="col">Staff's Name</th>
+                    <th scope="col">Staff's Email</th>
                     <th scope="col">Salary in MYR</th>
                 </tr>
             </thead>

@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-group">
                                         <input type="submit" value="Log-In" class="btn btn-primary btn-lg w-100">
                                     </div>
-                                    <p class="login-form__footer">Not an admin? <a href="../employee/login.php" class="text-primary">Log-In</a> as Employee now</p>
+                                    <p class="login-form__footer">Not an admin? <a href="../employee/login.php" class="text-primary">Log-In</a> as Staff now</p>
                                 </form>
                             </div>
                         </div>

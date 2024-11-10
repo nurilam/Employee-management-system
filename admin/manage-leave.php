@@ -33,7 +33,7 @@ table {
     <table style="width:100%" class="table-hover text-center ">
     <tr style="background-color: #ab4e52; color: black;">
         <th>S.No.</th>
-        <th>Employee Email</th>
+        <th>Staff Email</th>
         <th>Starting Date</th>
         <th>Ending Date</th> 
         <th>Total Days</th>

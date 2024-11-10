@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> Smart Management System</title>
+    <title> DR.DANN Animal Clinic Management System</title>
     
     <link href="../resorce/css/style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
@@ -79,10 +79,9 @@
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
                     </div>
                 </div>
-               <div class="text-center">
-                <h2 class="pt-3"> Smart Management System </h2>
-                 </div>
-                
+                <div class="text-center">
+                    <h2 class="pt-3" style="font-family: 'Arial', cursive; font-weight: 700; color: #7b1113; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); letter-spacing: 1px;">Dr. Dann's Animal Clinic Management System</h2>
+                </div>
             </div>
         </div>
         <!--**********************************
@@ -111,12 +110,6 @@
                     <li>
                         <a href="./apply-leave.php" >
                             <i class="fa fa-paper-plane menu-icon"></i><span class="nav-text">Apply for Leave</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="./view-employee.php" >
-                            <i class="fa fa-list-ul menu-icon"></i><span class="nav-text">View All Employees</span>
                         </a>
                     </li>
 

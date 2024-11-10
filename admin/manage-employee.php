@@ -30,16 +30,16 @@ table {
 
 <div class="container bg-white shadow">
     <div class="py-4 mt-5"> 
-        <div class='text-center pb-2'><h4>Manage Employees</h4></div>
+        <div class='text-center pb-2'><h4>Manage Staff</h4></div>
         <table style="width:100%" class="table-hover text-center ">
             <tr style="background-color: #ab4e52; color: black;">
                 <th>S.No.</th>
-                <th>Employee Id</th>
+                <th>Staff Id</th>
                 <th>Name</th>
+                <th>IC Number</th>
                 <th>Email</th> 
                 <th>Gender</th>
                 <th>Date of Birth</th>
-                <th>Age in Years</th>
                 <th>Salary in MYR</th>
                 <th>Password</th>
                 <th>Action</th>
@@ -49,6 +49,7 @@ table {
             if( mysqli_num_rows($result) > 0){
                 while( $rows = mysqli_fetch_assoc($result) ){
                     $name= $rows["name"];
+                    $ic_number= $rows["ic_number"];
                     $email= $rows["email"];
                     $dob = $rows["dob"];
                     $gender = $rows["gender"];
@@ -80,10 +81,10 @@ table {
                         <td><?php echo "{$i}."; ?></td>
                         <td><?php echo $id; ?></td>
                         <td> <?php echo $name ; ?></td>
+                        <td><?php echo $ic_number; ?></td>
                         <td><?php echo $email; ?></td>
                         <td><?php echo $gender; ?></td>
                         <td><?php echo $dob; ?></td>
-                        <td><?php echo $age; ?></td>
                         <td><?php echo $salary; ?></td>
                         
                         <!-- Password field with eye icon -->

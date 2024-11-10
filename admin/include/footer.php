@@ -13,7 +13,7 @@
  
 <div class="footer hide">
             <div class="copyright">
-                <p>Designed & Developed in 2024</p>
+                <p>Dr.Dann's Animal Clinic Management System </p>
             </div>
         </div>
         <!--**********************************

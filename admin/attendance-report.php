@@ -11,41 +11,52 @@ $currentDate = date('Y-m-d');
 if (isset($_POST['card_uid'])) {
     $cardUid = $_POST['card_uid'];
 
-    // Fetch employee details using the card UID
-    $employeeQuery = "SELECT id, name FROM employee WHERE card_uid = '$cardUid'";
-    $employeeResult = mysqli_query($conn, $employeeQuery);
+   // Fetch employee details using the card UID
+   $employeeQuery = "SELECT id, name FROM employee WHERE card_uid = '$cardUid'";
+   $employeeResult = mysqli_query($conn, $employeeQuery);
 
-    if (mysqli_num_rows($employeeResult) > 0) {
-        $employeeData = mysqli_fetch_assoc($employeeResult);
-        $employeeId = $employeeData['id'];
+   if (mysqli_num_rows($employeeResult) > 0) {
+       $employeeData = mysqli_fetch_assoc($employeeResult);
+       $employeeId = $employeeData['id'];
 
-        // Check if the employee has already clocked in today
-        $attendanceCheck = "SELECT * FROM attendance WHERE employee_id = '$employeeId' AND DATE(clock_in) = '$currentDate'";
-        $attendanceResult = mysqli_query($conn, $attendanceCheck);
+       // Check if the employee has already clocked in today
+       $attendanceCheck = "SELECT * FROM attendance WHERE employee_id = '$employeeId' AND DATE(clock_in) = '$currentDate'";
+       $attendanceResult = mysqli_query($conn, $attendanceCheck);
 
-        if (mysqli_num_rows($attendanceResult) > 0) {
-            // Clock out
-            $attendanceRecord = mysqli_fetch_assoc($attendanceResult);
-            $attendanceId = $attendanceRecord['id'];
+       if (mysqli_num_rows($attendanceResult) > 0) {
+           // Clock-out process
+           $attendanceRecord = mysqli_fetch_assoc($attendanceResult);
+           $attendanceId = $attendanceRecord['id'];
+           $clockInTime = strtotime($attendanceRecord['clock_in']);
+           $currentTime = time();
 
-            // Check if the employee has already clocked out
-            if ($attendanceRecord['clock_out'] === null) {
-                // Update the clock-out time
-                $updateQuery = "UPDATE attendance SET clock_out = NOW() WHERE id = '$attendanceId'";
-                mysqli_query($conn, $updateQuery);
-                echo "Clocked out successfully.";
-            } else {
-                echo "You have already clocked out today.";
-            }
-        } else {
-            // Clock in
-            $insertQuery = "INSERT INTO attendance (employee_id, clock_in) VALUES ('$employeeId', NOW())";
-            mysqli_query($conn, $insertQuery);
-            echo "Clocked in successfully.";
-        }
-    } else {
-        echo "Invalid card. Please try again.";
-    }
+           // Calculate time difference in hours
+           $hoursWorked = ($currentTime - $clockInTime) / 3600;
+
+           // Check if the employee has already clocked out
+           if ($attendanceRecord['clock_out'] === null) {
+               if ($hoursWorked >= 4) {
+                   // Update the clock-out time
+                   $updateQuery = "UPDATE attendance SET clock_out = NOW() WHERE id = '$attendanceId'";
+                   mysqli_query($conn, $updateQuery);
+                   echo "Clocked out successfully.";
+               } else {
+                   // Display a message if the required 4-hour minimum is not met
+                   $remainingTime = 4 - $hoursWorked;
+                   echo "You need to work at least 4 hours before clocking out. Remaining time: " . number_format($remainingTime, 2) . " hours.";
+               }
+           } else {
+               echo "You have already clocked out today.";
+           }
+       } else {
+           // Clock-in process
+           $insertQuery = "INSERT INTO attendance (employee_id, clock_in) VALUES ('$employeeId', NOW())";
+           mysqli_query($conn, $insertQuery);
+           echo "Clocked in successfully.";
+       }
+   } else {
+       echo "Invalid card. Please try again.";
+   }
 }
 
 // Fetch all employees for the dropdown
@@ -131,27 +142,92 @@ if (isset($_POST['edit_attendance_id'])) {
         width: 300px;
         margin: 0 auto;
     }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fa;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h2 {
+        color: #0056b3;
+        margin-bottom: 20px;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    select, input[type="month"], input[type="text"] {
+        padding: 8px;
+        font-size: 16px;
+        width: 100%;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #004494;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
 </style>
 
 <div class="container">
     <h2>Attendance Clock-In/Out</h2>
     <form id="myForm" method="POST" action="attendance-report.php">
-        <!-- <label for="cardInput">Tap Your Proximity Card:</label>
-        <input type="text" id="cardInput" name="card_uid" style="display:none" required>
-        <button type="submit" style="display:none">Clock In/Out</button> -->
-
         <label for="table-search-users">Tap Your Proximity Card:</label>
         <input type="text" id="table-search-users" name="card_uid" required>
         <button type="submit" style="display: none;">Clock In/Out</button>
 
     </form>
-
-    <!-- <script>
-        document.getElementById("cardInput").addEventListener("input", function() {
-            this.form.submit();
-        });
-    </script> -->
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function addInputToTable() {
@@ -205,9 +281,9 @@ if (isset($_POST['edit_attendance_id'])) {
 
     <!-- Employee selection form -->
     <form method="POST">
-        <label for="employee">Select Employee:</label>
+        <label for="employee">Select Staff:</label>
         <select name="employee" id="employee" required>
-            <option value="">-- Select Employee --</option>
+            <option value="">-- Select Staff --</option>
             <?php while ($row = mysqli_fetch_assoc($employeeResult)) { ?>
                 <option value="<?php echo $row['id']; ?>" <?php echo ($row['id'] == $selectedEmployee) ? 'selected' : ''; ?>>
                     <?php echo htmlspecialchars($row['name']); ?>
@@ -225,12 +301,12 @@ if (isset($_POST['edit_attendance_id'])) {
     <table class="table">
         <thead>
             <tr>
-                <th>Employee Name</th>
+                <th>Staff Name</th>
                 <th>Clock In</th>
                 <th>Clock Out</th>
                 <th>Hours Worked</th>
                 <th>Overtime</th>
-                <th>Action</th> <!-- New column for actions -->
+                <th>Action</th> 
             </tr>
         </thead>
         <tbody>

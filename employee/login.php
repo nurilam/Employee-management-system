@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-input-content">
                         <div class="card login-form mb-0">
                             <div class="card-body pt-5 shadow">
-                                <h4 class="text-center">Hello, Employee</h4>
+                                <h4 class="text-center">Hello, Staff</h4>
                                 <div class="text-center my-5"><?php echo $login_Err; ?></div>
 
                                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-group">
                                         <input type="submit" value="Log-In" class="btn btn-primary btn-lg w-100">
                                     </div>
-                                    <p class="login-form__footer">Not an employee? <a href="../admin/login.php" class="text-primary">Log-In</a> as Admin now</p>
+                                    <p class="login-form__footer">Not an Staff? <a href="../admin/login.php" class="text-primary">Log-In</a> as Admin now</p>
                                 </form>
                             </div>
                         </div>

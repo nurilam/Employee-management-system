@@ -110,64 +110,14 @@ require_once "include/header.php";
         <div class="col-4">
             <div class="card shadow " style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-center" style="background-color: #7b1113; color: white;"> <b>Employees</b>  </li>
-                    <li class="list-group-item">Total Employees : <?php echo mysqli_num_rows($total_emp); ?></li>
-                    <li class="list-group-item text-center"><a href="view-employee.php" style="color: black;"> <b>View All Employees</b></a></li>
+                    <li class="list-group-item text-center" style="background-color: #7b1113; color: white;"> <b>Staff</b>  </li>
+                    <li class="list-group-item">Total Staff : <?php echo mysqli_num_rows($total_emp); ?></li>
+                    <li class="list-group-item text-center"><a href="view-employee.php" style="color: black;"> <b>View All Staff</b></a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <!-- <div class="row mt-5">
-        <div class="col-4">       
-        </div>
-
-        <div class="col-4">
-            <div class="card shadow " style="width: 18rem;">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-center">Employees on Leave (Weekwise) </li>
-                    <li class="list-group-item">This Week : </li>
-                    <li class="list-group-item">Next Week : </li>
-                </ul>
-            </div>
-        </div>
-    </div> -->
-    <div class="row mt-5 bg-white shadow "> 
-    <div class="col-12">
-            <div class=" text-center my-3 "> <h4>Employee Leadership Board</h4> </div>
-            <table class="table  table-hover">
-        <thead>
-            <tr style="background-color: #ab4e52; color: black;">
-            <th scope="col">S.No.</th>
-            <th scope="col">Employee's Id</th>
-            <th scope="col">Employee's Name</th>
-            <th scope="col">Employee's Email</th>
-            <th scope="col">Salary in MYR</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php while( $emp_info = mysqli_fetch_assoc($emp_) ){
-                    $emp_id = $emp_info["id"];
-                    $emp_name = $emp_info["name"];
-                    $emp_email = $emp_info["email"];
-                    $emp_salary = $emp_info["salary"];
-                    ?>
-            <tr>
-            <th ><?php echo "$i. "; ?></th>
-            <th ><?php echo $emp_id; ?></th>
-            <td><?php echo $emp_name; ?></td>
-            <td><?php echo $emp_email; ?></td>
-            <td><?php echo $emp_salary; ?></td>
-            </tr>
-
-          <?php  
-          $i++; 
-                } 
-            ?>
-        </tbody>
-        </table>
     </div>
-    </div>
-</div>
 
 <?php 
 require_once "include/footer.php";

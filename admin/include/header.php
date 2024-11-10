@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Smart Management System</title>
+    <title>DR.DANN Animal's Clinic Management System</title>
     
     <link href="../resorce/css/style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <h2 class="pt-3"> Smart Management System </h2>
+                    <h2 class="pt-3" style="font-family: 'Arial', cursive; font-weight: 700; color: #7b1113; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); letter-spacing: 1px;">Dr. Dann's Animal Clinic Management System</h2>
                 </div>
             </div>
         </div>
@@ -98,11 +98,11 @@
 
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    <i class="fa fa-address-card-o menu-icon"></i><span class="nav-text">Employee</span>
+                    <i class="fa fa-address-card-o menu-icon"></i><span class="nav-text">Staff</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="./add-employee.php"> <i class="icon-plus menu-icon"></i><span class="nav-text">Add Employee</span></a></li>
-                    <li><a href="./manage-employee.php"> <i class="fa fa-tasks menu-icon"></i><span class="nav-text">Manage Employee</span></a></li>
+                    <li><a href="./add-employee.php"> <i class="icon-plus menu-icon"></i><span class="nav-text">Add Staff</span></a></li>
+                    <li><a href="./manage-employee.php"> <i class="fa fa-tasks menu-icon"></i><span class="nav-text">Manage Staff</span></a></li>
                 </ul>
             </li>
 
@@ -118,7 +118,7 @@
 
             <li>
                 <a href="./manage-leave.php" >
-                    <i class="fa fa-tasks menu-icon"></i><span class="nav-text">Manage Employee Leave</span>
+                    <i class="fa fa-tasks menu-icon"></i><span class="nav-text">Manage Staff Leave</span>
                 </a>
             </li>
             
