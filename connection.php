@@ -1,9 +1,9 @@
 <?php
 // connection.php
-$dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "";
-$dbname = "employee_management";
+$dbhost = "127.0.0.1:3306";
+$dbuser = "u428708477_DrDannvetAdmin";
+$dbpass = "MyPKPIM123@";
+$dbname = "u428708477_DrDannvetAdmin";
 
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
