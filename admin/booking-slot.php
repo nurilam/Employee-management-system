@@ -33,7 +33,7 @@ if (isset($_POST['add_booking'])) {
     $animal = $_POST['animal'];
 
     header('Content-Type: application/json'); // Set the content type to JSON
-    
+
 
     // Check for existing bookings with the same date and time
     $check_query = "SELECT * FROM bookings WHERE date = ? AND time = ?";
@@ -41,7 +41,7 @@ if (isset($_POST['add_booking'])) {
     mysqli_stmt_bind_param($stmt_check, "ss", $date, $time);
     mysqli_stmt_execute($stmt_check);
     $result_check = mysqli_stmt_get_result($stmt_check);
-    
+
     if (mysqli_num_rows($result_check) > 0) {
         // Booking already exists
         mysqli_stmt_close($stmt_check);
@@ -63,9 +63,9 @@ if (isset($_POST['add_booking'])) {
             echo json_encode(['status' => 'error', 'message' => 'Error in insert query: ' . mysqli_error($conn)]);
         }
     }
-    
+
     mysqli_stmt_close($stmt_check); // Close the check statement
-    
+
 }
 
 
@@ -206,7 +206,7 @@ mysqli_close($conn); // Close the database connection
 <!-- Booking Form -->
 <form method="POST" class="mb-4" style="background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); max-width: 700px; margin: 0 auto;">
     <h3 class="text-uppercase font-weight-bold mb-4 text-center" style="color: #7b1113;">Add New Booking</h3>
-    
+
     <!-- Row for Name -->
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -218,7 +218,7 @@ mysqli_close($conn); // Close the database connection
             <input type="text" class="form-control" name="last_name" required style="border: 1px solid #7b1113; border-radius: 8px; padding: 10px;">
         </div>
     </div>
-    
+
     <!-- Row for Phone Number -->
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -226,7 +226,7 @@ mysqli_close($conn); // Close the database connection
             <input type="tel" class="form-control" name="phone" required style="border: 1px solid #7b1113; border-radius: 8px; padding: 10px;">
         </div>
     </div>
-    
+
     <!-- Row for Service and Animal -->
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -248,7 +248,7 @@ mysqli_close($conn); // Close the database connection
             <input type="text" class="form-control" name="animal" required style="border: 1px solid #7b1113; border-radius: 8px; padding: 10px;">
         </div>
     </div>
-    
+
     <!-- Row for Date and Time -->
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -268,11 +268,11 @@ mysqli_close($conn); // Close the database connection
             </select>
         </div>
     </div>
-    
+
     <!-- Submit Button -->
     <div class="form-row justify-content-center">
         <div class="form-group col-md-6 text-center">
-            <button type="submit" name="add_booking" class="btn btn-primary" 
+            <button type="submit" name="add_booking" class="btn btn-primary"
                     style="background-color: #7b1113; border: none; border-radius: 8px; transition: background-color 0.3s; width: 100%; padding: 12px; font-size: 16px;">
                 Add Booking
             </button>
@@ -344,7 +344,7 @@ mysqli_close($conn); // Close the database connection
                             <th><?php echo $i; ?></th>
                             <td><?php echo $customer_name; ?></td>
                             <td><?php echo $phone; ?></td>
-                            <td><?php echo $animal; ?></td>  
+                            <td><?php echo $animal; ?></td>
                             <td><?php echo $service; ?></td>
                             <td><?php echo $booking_date; ?></td>
                             <td><?php echo $booking_time; ?></td>
@@ -369,7 +369,7 @@ mysqli_close($conn); // Close the database connection
                                     <?php echo $actions; ?>
                                 <?php } ?>
                             </td>
-                            
+
                             <td>
                                 <!-- Delete Form -->
                                 <form method="POST" style="display:inline;">

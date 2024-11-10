@@ -101,7 +101,7 @@
       <h2 class="card-title">
         <span class="clinic-name">Dr. Dann Animal Clinic</span><br>
         <span class="system-name">Smart Management System</span>
-      </h2>     
+      </h2>
         <h6 class="card-subtitle">Please Log In According to Your Role</h6>
 
         <a href="employee/login.php" class="btn btn-primary">

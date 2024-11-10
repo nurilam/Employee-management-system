@@ -76,22 +76,22 @@ if ($selectedEmployee) {
     // Fetch attendance for the selected employee and month with total hours and overtime calculation
     $sql = "SELECT e.name, a.id AS attendance_id, a.clock_in, a.clock_out,
                    TIMEDIFF(a.clock_out, a.clock_in) AS hours_worked,
-                   CASE 
-                       WHEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) > 480 THEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) - 480 
-                       ELSE 0 
+                   CASE
+                       WHEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) > 480 THEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) - 480
+                       ELSE 0
                    END AS overtime_minutes
             FROM attendance a
             JOIN employee e ON a.employee_id = e.id
-            WHERE a.employee_id = '$selectedEmployee' 
+            WHERE a.employee_id = '$selectedEmployee'
             AND DATE_FORMAT(a.clock_in, '%Y-%m') = '$selectedMonth'
             ORDER BY a.clock_in DESC";
 } else {
     // Fetch attendance for the current day and count clock-ins and clock-outs
     $sql = "SELECT e.id, e.name, a.id AS attendance_id, a.clock_in, a.clock_out,
                    TIMEDIFF(a.clock_out, a.clock_in) AS hours_worked,
-                   CASE 
-                       WHEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) > 480 THEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) - 480 
-                       ELSE 0 
+                   CASE
+                       WHEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) > 480 THEN TIMESTAMPDIFF(MINUTE, a.clock_in, a.clock_out) - 480
+                       ELSE 0
                    END AS overtime_minutes
             FROM attendance a
             JOIN employee e ON a.employee_id = e.id
@@ -124,15 +124,15 @@ if (isset($_POST['edit_attendance_id'])) {
 ?>
 
 <style>
-    #table-search-users {
+    /* #table-search-users {
         display: block;
         width: 100%;
         padding: 10px;
         margin-top: 20px;
         font-size: 16px;
-    }
+    } */
 
-    #myForm label {
+    /* #myForm label {
         font-weight: bold;
         margin-bottom: 10px;
         display: block;
@@ -150,7 +150,7 @@ if (isset($_POST['edit_attendance_id'])) {
         margin: 0;
         padding: 0;
     }
-    
+
     .container {
         max-width: 1200px;
         margin: 40px auto;
@@ -264,7 +264,7 @@ if (isset($_POST['edit_attendance_id'])) {
                 icon: 'success',
                 timer: 1000, // 2 seconds
                 showConfirmButton: false
-            }).then(() => {                
+            }).then(() => {
                 form.submit();
             });
         }
@@ -306,7 +306,7 @@ if (isset($_POST['edit_attendance_id'])) {
                 <th>Clock Out</th>
                 <th>Hours Worked</th>
                 <th>Overtime</th>
-                <th>Action</th> 
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
